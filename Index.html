@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nickson Maisiba Code Group</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            transition: background 1s ease;
+        }
+
+        .magic-container {
+            text-align: center;
+            cursor: pointer;
+            padding: 40px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            user-select: none;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #ff007f, #7f00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 3s infinite alternate;
+        }
+
+        p {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fly 1.5s linear infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.98); filter: hue-rotate(0deg); }
+            100% { transform: scale(1.02); filter: hue-rotate(360deg); }
+        }
+
+        @keyframes fly {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) translateX(var(--x)) scale(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="magic-container" onclick="castMagic(event)">
+        <h1 id="text">Nickson Maisiba</h1>
+        <p id="subtext">Code Group</p>
+    </div>
+
+    <script>
+        // Array of premium color pairs (Background color, Subtext color)
+        const magicColors = [
+            { bg: "#0d1b2a", sub: "#e0e1dd" },
+            { bg: "#2d004d", sub: "#ffb7ff" },
+            { bg: "#004b23", sub: "#ccff33" },
+            { bg: "#3d0000", sub: "#ff4d4d" },
+            { bg: "#003566", sub: "#ffc300" },
+            { bg: "#220033", sub: "#00ffff" },
+            { bg: "#1a1a1a", sub: "#ffffff" }
+        ];
+
+        let currentIndex = 0;
+
+        function castMagic(event) {
+            // 1. Cycle through background and accent colors
+            currentIndex = (currentIndex + 1) % magicColors.length;
+            const currentPalette = magicColors[currentIndex];
+            
+            document.body.style.backgroundColor = currentPalette.bg;
+            document.getElementById('subtext').style.color = currentPalette.sub;
+
+            // 2. Generate magical burst particles where clicked
+            for (let i = 0; i < 15; i++) {
+                createSparkle(event.clientX, event.clientY, currentPalette.sub);
+            }
+        }
+
+        function createSparkle(x, y, color) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            document.body.appendChild(sparkle);
+
+            // Randomize trajectory directions
+            const randomX = (Math.random() - 0.5) * 200;
+            sparkle.style.setProperty('--x', `${randomX}px`);
+            
+            // Apply placement and styling
+            sparkle.style.left = `${x}px`;
+            sparkle.style.top = `${y}px`;
+            sparkle.style.backgroundColor = color;
+            sparkle.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
+
+            // Clean up elements from DOM after animation completes
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
